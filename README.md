@@ -1,5 +1,5 @@
 # BJJClassRestAPI
-Small API made using node.js to track techniques learned in jiu jitsu classes
+Small API made using node.js to track techniques learned in jiu jitsu classes.  Functionality can be seen at /api-docs.
 
 This project was made using authorization code from a tutorial.  Throughout the project,
 credit is given to Dave Grey where code was copied from the following Github Resource:

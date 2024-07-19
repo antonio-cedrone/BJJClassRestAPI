@@ -10,6 +10,8 @@ module.exports = (dataFilters) => {
             If the data used to filter the query is not from the body 
             decode the URI (as it will be from params).
         */
+        const dataFiltersObj = {};
+
         for (key in dataFilters) {
             let temp = req;
 
@@ -17,14 +19,14 @@ module.exports = (dataFilters) => {
             parts.forEach(part => {temp = temp[part]});
 
             if (parts[0] !== "body") {
-                dataFilters[key] = decodeURI(temp);
+                dataFiltersObj[key] = decodeURI(temp);
             }
             else {
-                dataFilters[key] = temp;
+                dataFiltersObj[key] = temp;
             }
         }
 
-        req.dataFilter = dataFilters;
+        req.dataFilter = dataFiltersObj;
 
         next();
     }

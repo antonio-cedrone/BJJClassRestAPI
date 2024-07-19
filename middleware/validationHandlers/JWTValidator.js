@@ -31,7 +31,7 @@ const verifyJWT = (req, res, next) => {
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
             if (err) {
-                const error = new Error(err.message);
+                const error = new Error("Invalid access token provided");
                 error.status = 401;
                 return next(error);
             }

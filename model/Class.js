@@ -56,9 +56,11 @@ const classSchema = new mongoose.Schema(
             validate: [(arr) => {return arr.length >= 1}, 'at least one position reference is required'],
             required: true
         },
-        date: {type: String, default: format(new Date(), 'MMM dd, yyyy hh:mmaaa'), required: true, unique: true, validate: {
+        date: {type: String, default: format(new Date(), 'MMM dd, yyyy hh:mmaaa'), required: true,  validate: {
             validator: (value) => { isMatch(value, 'MMM dd, yyyy hh:mmaaa'); }, 
             message: props => `${props.value} is not a valid date`}} 
     }, { strict: "throw" });
+
+classSchema.index({school: 1, date: 1}, {unique: true});
 
 module.exports = mongoose.model('Class', classSchema);

@@ -8,7 +8,7 @@ const unsupportedMethodHandler = require('../middleware/ErrorHandlers/unsupporte
 const verifyRoles = require("../middleware/verifyRoles");
 
 router.route("/register")
-    .post(verifyRoles("admin"), bodyDbSchemaValidator(User), require("../middleware/hashPassword"), UserController.addElement)
+    .post(verifyRoles("admin"), bodyDbSchemaValidator(User), require("../middleware/limitAdminPermissions"), require("../middleware/hashPassword"), UserController.addElement)
     .all(unsupportedMethodHandler);
 
 module.exports = router;

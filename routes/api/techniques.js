@@ -8,6 +8,7 @@ const Controller = require("../../controllers/dbModelController");
 const techniquesController = new Controller(Technique);
 const setFilter = require("../../middleware/SettingFiltersHandlers/setFilterFromRequest")
 const verifyRoles = require("../../middleware/verifyRoles");
+const standardMethodRoles = require("../../config/standardMinRoles");
 
 /**
  * @openapi
@@ -100,8 +101,8 @@ const verifyRoles = require("../../middleware/verifyRoles");
 }
  */
 router.route('/')
-    .get(verifyRoles("user"), techniquesController.getAll)
-    .post(verifyRoles("editor"), bodyDbSchemaValidator(Technique), techniquesController.addElement)
+    .get(verifyRoles(standardMethodRoles["GET"]), techniquesController.getAll)
+    .post(verifyRoles(standardMethodRoles["POST"]), bodyDbSchemaValidator(Technique), techniquesController.addElement)
     .all(unsupportedMethodHandler);
 
 /**
@@ -267,9 +268,9 @@ router.route('/')
 router.route('/:_id')
     .all(ajvSchemaValidator(require("../../libs/Schemas/requestByIdSchema"), "params"))
     .all(setFilter({"_id": "params._id"}))
-    .get(verifyRoles("user"), techniquesController.getOne)
-    .put(verifyRoles("editor"), bodyDbSchemaValidator(Technique), techniquesController.updateElement)
-    .delete(verifyRoles("editor"), techniquesController.deleteElement)
+    .get(verifyRoles(standardMethodRoles["GET"]), techniquesController.getOne)
+    .put(verifyRoles(standardMethodRoles["PUT"]), bodyDbSchemaValidator(Technique), techniquesController.updateElement)
+    .delete(verifyRoles(standardMethodRoles["DELETE"]), techniquesController.deleteElement)
     .all(unsupportedMethodHandler);
  
 /**
@@ -334,7 +335,7 @@ router.route('/:_id')
 router.route('/position/:_id')
     .all(ajvSchemaValidator(require("../../libs/Schemas/requestByIdSchema"), "params"))
     .all(setFilter({"positions.position": "params._id"}))
-    .get(verifyRoles("user"), techniquesController.getAll)
+    .get(verifyRoles(standardMethodRoles["GET"]), techniquesController.getAll)
     .all(unsupportedMethodHandler);
 
 module.exports = router;

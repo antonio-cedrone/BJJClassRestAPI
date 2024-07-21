@@ -8,6 +8,7 @@ const Controller = require("../../controllers/dbModelController");
 const positionsController = new Controller(Position);
 const setFilter = require("../../middleware/SettingFiltersHandlers/setFilterFromRequest");
 const verifyRoles = require("../../middleware/verifyRoles");
+const standardMethodRoles = require("../../config/standardMinRoles");
 
 /**
  * @openapi
@@ -100,8 +101,8 @@ const verifyRoles = require("../../middleware/verifyRoles");
 }
  */
 router.route('/')
-    .get(verifyRoles("user"), positionsController.getAll)
-    .post(verifyRoles("editor"), bodyDbSchemaValidator(Position), positionsController.addElement)
+    .get(verifyRoles(standardMethodRoles["GET"]), positionsController.getAll)
+    .post(verifyRoles(standardMethodRoles["POST"]), bodyDbSchemaValidator(Position), positionsController.addElement)
     .all(unsupportedMethodHandler);
 
 /**
@@ -267,9 +268,9 @@ router.route('/')
 router.route('/:_id')
     .all(ajvSchemaValidator(require("../../libs/Schemas/requestByIdSchema"), "params"))
     .all(setFilter({"_id": "params._id"}))
-    .get(verifyRoles("user"), positionsController.getOne)
-    .put(verifyRoles("editor"), bodyDbSchemaValidator(Position), positionsController.updateElement)
-    .delete(verifyRoles("editor"), positionsController.deleteElement)
+    .get(verifyRoles(standardMethodRoles["GET"]), positionsController.getOne)
+    .put(verifyRoles(standardMethodRoles["PUT"]), bodyDbSchemaValidator(Position), positionsController.updateElement)
+    .delete(verifyRoles(standardMethodRoles["DELETE"]), positionsController.deleteElement)
     .all(unsupportedMethodHandler);
 
 module.exports = router;

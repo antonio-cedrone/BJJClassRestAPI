@@ -48,7 +48,7 @@ class Controller {
             against the schema (except for unique constraints).
         */
         try{
-            const result = await this.element.create(new this.element(req.body));
+            const result = await this.element.create(req.body);
 
             req.intermediateBody = result;
             req.intermediateStatus = 201;
